@@ -7,15 +7,45 @@ interface IUser {
   email: string;
 };
 
+interface IUserWithPosts extends IUser {
+  posts: {
+    create: {
+      title: string;
+    }
+  }
+};
+
 const createUser = async (user: IUser) => {
   const newUser = await prisma.user.create({ data: user });
   console.log(newUser);
 };
 
+const fetchUsers = async () => {
+  const users = await prisma.user.findMany();
+  console.log(users);
+};
+
+const createUserWithPost = async (user: IUserWithPosts) => {
+  const newUser = await prisma.user.create({ data: user });
+  console.log(newUser);
+};
+
 async function main() {
-  createUser({
-    name: 'John',
-    email: 'john@prisma.io',
+  // createUser({
+  //   name: 'John',
+  //   email: 'john@prisma.io',
+  // });
+
+  // fetchUsers();
+
+  createUserWithPost({
+    name: 'Bob',
+    email: 'bob@prisma.io',
+    posts: {
+      create: {
+        title: 'Hello World',
+      },
+    },
   });
 }
 
