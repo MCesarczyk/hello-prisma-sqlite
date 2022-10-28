@@ -30,6 +30,16 @@ const createUserWithPost = async (user: IUserWithPosts) => {
   console.log(newUser);
 };
 
+const fetchUsersWithPosts = async () => {
+  const usersWithPosts = await prisma.user.findMany({
+    include: {
+      posts: true,
+    },
+  });
+
+  console.dir(usersWithPosts, { depth: null })
+};
+
 async function main() {
   // createUser({
   //   name: 'John',
@@ -38,15 +48,17 @@ async function main() {
 
   // fetchUsers();
 
-  createUserWithPost({
-    name: 'Bob',
-    email: 'bob@prisma.io',
-    posts: {
-      create: {
-        title: 'Hello World',
-      },
-    },
-  });
+  // createUserWithPost({
+  //   name: 'Bob',
+  //   email: 'bob@prisma.io',
+  //   posts: {
+  //     create: {
+  //       title: 'Hello World',
+  //     },
+  //   },
+  // });
+
+  fetchUsersWithPosts();
 }
 
 main()
